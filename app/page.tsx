@@ -175,12 +175,11 @@ export default async function Page({
     inputMode="text"
     placeholder="英数字パスワード"
     autoComplete="one-time-code"
-    style={{ flex: 3 }}   // ← 3/4 相当
+    style={{ flex: 3 }}
   />
   <button className="primaryBtn" type="submit" style={{ flex: 1.5 }}>
     入　力
   </button>
-  {gate && <div className="err">パスワードが違います。もう一度入力してください。</div>}
 </form>
 
 {gate && (
