@@ -153,26 +153,21 @@ export default async function Page({
           <section className="section">
             <div className="glass glassStrong">
               <div
-                style={{
-                  fontWeight: 900,
-                  color: "rgba(255,255,255,0.92)",
-                  textShadow: "0 6px 18px rgba(2,6,23,0.45)",
-                }}
-              >
-                アクセス
-              </div>
+  style={{
+    fontWeight: 900,
+    color: "#0b2a55",
+    textShadow: "0 2px 10px rgba(255,255,255,0.35)",
+  }}
+>
+  アクセス
+</div>
               <div className="sub" style={{ marginTop: 6 }}>
-                配布されたパスワードを入力してください（30日保持）。
+                配布されたパスワードを入力してください（60日保持）。
               </div>
 
 <form
   action={lpLogin}
-  style={{
-    marginTop: 12,
-    display: "flex",
-    gap: 8,
-    alignItems: "stretch",
-  }}
+  style={{ marginTop: 12, display: "flex", gap: 10, alignItems: "center" }}
 >
   <input
     className="input"
@@ -180,22 +175,12 @@ export default async function Page({
     inputMode="text"
     placeholder="英数字パスワード"
     autoComplete="one-time-code"
-    style={{
-      flex: 3,   // 3/4
-      marginBottom: 0,
-    }}
+    style={{ flex: 3 }}   // ← 3/4 相当
   />
-
-  <button
-    className="primaryBtn"
-    type="submit"
-    style={{
-      flex: 1,   // 1/4
-      padding: "0 8px",
-    }}
-  >
+  <button className="primaryBtn" type="submit" style={{ flex: 1.5 }}>
     入　力
   </button>
+  {gate && <div className="err">パスワードが違います。もう一度入力してください。</div>}
 </form>
 
 {gate && (

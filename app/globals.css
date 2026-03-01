@@ -163,13 +163,27 @@ body {
 
 /* パス入力 */
 .input {
-  color: #0b2a55;
-  border: 1px solid #000;
-  background: rgba(255,255,255,0.85);
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 20px;              /* ← ピル型 */
+  border: 1px solid #000000;        /* ← 黒線 */
+  background: rgba(255, 255, 255, 0.85);
+
+  font-size: 14px;
+  color: #0b2a55;                   /* 入力文字＝紺 */
+  outline: none;
+  box-sizing: border-box;
 }
 
+/* プレースホルダーも紺寄り */
 .input::placeholder {
   color: rgba(11, 42, 85, 0.60);
+}
+
+/* フォーカス時もピル型維持＆少しだけ“効いてる感” */
+.input:focus {
+  border-color: rgba(11, 42, 85, 0.85);
+  box-shadow: 0 0 0 3px rgba(11, 42, 85, 0.12);
 }
 
 .primaryBtn {
