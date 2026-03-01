@@ -7,12 +7,9 @@ export const dynamic = "force-dynamic";
 
 function ModeButton(props: { title: string; href: string; badge?: string }) {
   return (
-    <a className="bigBtn" href={props.href}>
-      <span className="bigBtnText">
-        {props.title}
-        {props.badge && <span style={{ marginLeft: 10, opacity: 0.9, fontSize: 13 }}>{props.badge}</span>}
-      </span>
-    </a>
+<a className="bigBtn glass glassStrong" href={props.href}>
+  <span className="bigBtnText">{props.title}</span>
+</a>
   );
 }
 
@@ -105,12 +102,12 @@ export default async function Page({
   const buttons = [
     {
       id: "interview-pod",
-      title: "interview-pod（面接トレーニング）",
+      title: "面接基礎トレーナー",
       href: interviewPodHref,
     },
     {
       id: "es-trainer",
-      title: "es-trainer（ES添削）",
+      title: "E.S.基礎トレーナー",
       href: esTrainerHref,
     },
   ].sort((a, b) => {
@@ -147,7 +144,7 @@ export default async function Page({
 
         {/* タイトル */}
         <div className="titleWrap">
-          <h1 className="h1">就活統合基礎トレーナー</h1>
+          <h1 className="h1">就活支援基礎トレーナー</h1>
           <div className="sub">比較ではなく、視点を切り替えて深く考える</div>
         </div>
 
@@ -197,7 +194,7 @@ export default async function Page({
       padding: "0 8px",
     }}
   >
-    入力
+    入　力
   </button>
 </form>
 
@@ -238,7 +235,7 @@ export default async function Page({
               このアプリは、進路を考えるためのものです。<br />
               医療施設を含め、企業も視野に幅広く業界を理解し、考え方を獲得するための教材です。<br />
               <span style={{ opacity: 0.9 }}>
-                運用：サーバーレス／無料。強制ログアウトなし（Cookie最大30日）。
+              （Cookie最大60日）。
               </span>
             </div>
           </>

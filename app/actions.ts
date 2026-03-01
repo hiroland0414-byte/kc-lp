@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { makeLpAuthPayload, sha256Hex, signCookie } from "@/lib/auth";
 
 const COOKIE_NAME = "kc_lp_auth";
-const THIRTY_DAYS = 60 * 60 * 24 * 30;
+const THIRTY_DAYS = 60 * 60 * 24 * 60;
 
 /**
  * LPログイン処理
