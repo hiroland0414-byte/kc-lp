@@ -57,7 +57,7 @@ body {
   background: linear-gradient(
     180deg,
     rgba(190, 235, 170, 0.55),
-    rgba(170, 220, 150, 0.45)
+    rgba(249, 252, 248, 0.45)
   );
 
   border: 1px solid rgba(255,255,255,0.35);
@@ -125,20 +125,23 @@ body {
 }
 
 /* モード選択ボタン（入力部と同じガラス色に統一） */
-.bigBtn {
+.bigBtn{
   width: 100%;
   margin-top: 12px;
   padding: 18px 14px;
   border-radius: 22px;
 
-  /* 👇 入力部と同系統 */
-  background: rgba(255, 255, 255, 0.22);
+  /* ✅ 入力部と同じ “パネル色” */
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+
+  /* ✅ すりガラス */
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255, 255, 255, 0.35);
-
+  /* ✅ 入力部に寄せて、内側の光を追加 */
   box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.35),
     0 14px 34px rgba(2,6,23,0.18);
 
   text-decoration: none;
@@ -146,21 +149,13 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all .25s ease;
 }
 
-.bigBtn:hover {
-  background: rgba(255,255,255,0.28);
+.bigBtn:hover{
+  background: var(--panel-strong);
   transform: translateY(-2px);
-}
-
-.bigBtnText {
-  font-size: 18px;
-  font-weight: 900;
-  color: var(--btn-text);
-  letter-spacing: -0.01em;
 }
 
 /* パス入力 */
