@@ -99,10 +99,11 @@ body {
   );
 }
 
-/* ✅ 重要：白カード内は文字を紺に */
+/* ✅ 白カード（glassStrong）内の .sub は必ず紺にする（最優先で勝たせる） */
+.glass.glassStrong .sub,
 .glassStrong .sub {
-  color: rgba(11, 42, 85, 0.78);
-  text-shadow: none;
+  color: #0b2a55 !important;
+  text-shadow: none !important;
 }
 
 /* 入力欄 */

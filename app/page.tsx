@@ -189,9 +189,6 @@ export default async function Page({
   </div>
 )}
 
-              <div className="adminLink">
-                管理者：<a href="/admin">/admin</a>
-              </div>
             </div>
           </section>
         )}
