@@ -164,17 +164,18 @@ body {
 /* パス入力 */
 .input {
   width: 100%;
-  padding: 14px 14px;
+  padding: 14px;
   border-radius: 20px;
 
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(255,255,255,0.45);
-
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.85); /* 少し白を強め */
+  border: 1px solid #000000;            /* 黒の枠線 */
 
   font-size: 14px;
-  color: #1565c0; /* 青 */
+  color: #0b2a55;                       /* 落ち着いた紺色 */
+}
+
+.input::placeholder {
+  color: rgba(11, 42, 85, 0.55);
 }
 
 .primaryBtn {
