@@ -168,19 +168,44 @@ export default async function Page({
                 配布されたパスワードを入力してください（30日保持）。
               </div>
 
-              <form action={lpLogin} style={{ marginTop: 12 }}>
-                <input
-                  className="input"
-                  name="password"
-                  inputMode="text"
-                  placeholder="英数字パスワード"
-                  autoComplete="one-time-code"
-                />
-                <button className="primaryBtn" type="submit">
-                  入　　力
-                </button>
-                {gate && <div className="err">パスワードが違います。もう一度入力してください。</div>}
-              </form>
+<form
+  action={lpLogin}
+  style={{
+    marginTop: 12,
+    display: "flex",
+    gap: 8,
+    alignItems: "stretch",
+  }}
+>
+  <input
+    className="input"
+    name="password"
+    inputMode="text"
+    placeholder="英数字パスワード"
+    autoComplete="one-time-code"
+    style={{
+      flex: 3,   // 3/4
+      marginBottom: 0,
+    }}
+  />
+
+  <button
+    className="primaryBtn"
+    type="submit"
+    style={{
+      flex: 1,   // 1/4
+      padding: "0 8px",
+    }}
+  >
+    入力
+  </button>
+</form>
+
+{gate && (
+  <div className="err" style={{ marginTop: 10 }}>
+    パスワードが違います。もう一度入力してください。
+  </div>
+)}
 
               <div className="adminLink">
                 管理者：<a href="/admin">/admin</a>
