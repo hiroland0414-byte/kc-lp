@@ -56,21 +56,6 @@ function withKch(baseUrl: string, secret: string, appId: string) {
   }
 }
 
-function renderMultilineText(text: string) {
-  // ENVの改行を <br/> に変換して表示
-  const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
-  return (
-    <>
-      {lines.map((line, i) => (
-        <span key={i}>
-          {line}
-          {i < lines.length - 1 ? <br /> : null}
-        </span>
-      ))}
-    </>
-  );
-}
-
 export default async function Page({
   searchParams,
 }: {
@@ -79,16 +64,15 @@ export default async function Page({
   const sp = (await searchParams) ?? {};
   const gate = sp["gate"] ? true : false;
 
-  // 「最終終了」押下後の案内表示（Serverで確実に制御）
-  const bye = sp["bye"] ? true : false;
-
   const authed = await isAuthed();
 
   const bgUrl = process.env.LP_BG_URL ?? "/bg.jpeg";
   const logoUrl = process.env.LP_LOGO_URL ?? "/logo.png";
 
-  const interviewPodUrl = process.env.NEXT_PUBLIC_INTERVIEW_POD_URL ?? "#";
-  const esTrainerUrl = process.env.NEXT_PUBLIC_ES_TRAINER_URL ?? "#";
+  const interviewPodUrl =
+    process.env.NEXT_PUBLIC_INTERVIEW_POD_URL ?? "#";
+  const esTrainerUrl =
+    process.env.NEXT_PUBLIC_ES_TRAINER_URL ?? "#";
 
   const hubSecret = process.env.HUB_LINK_SECRET ?? "";
 
@@ -99,13 +83,6 @@ export default async function Page({
   const esTrainerHref = hubSecret
     ? withKch(esTrainerUrl, hubSecret, "es-trainer")
     : esTrainerUrl;
-
-  // 管理者コメント（未設定なら枠ごと出さない）
-  // どちらか好きな名前でENVに入れられるよう、2候補対応
-  const adminComment =
-    process.env.NEXT_PUBLIC_ADMIN_COMMENT ??
-    process.env.LP_ADMIN_COMMENT ??
-    "";
 
   return (
     <div
@@ -135,7 +112,9 @@ export default async function Page({
         {/* タイトル */}
         <div className="titleWrap">
           <h1 className="h1">就活支援基礎トレーナー</h1>
-          <div className="sub">比較ではなく、視点を切り替えて深く考える</div>
+          <div className="sub">
+            比較ではなく、視点を切り替えて深く考える
+          </div>
         </div>
 
         {/* 未認証 */}
@@ -188,67 +167,24 @@ export default async function Page({
         {authed && (
           <>
             <section className="section">
-              <ModeButton title="面接基礎トレーナー" href={interviewPodHref} />
-              <ModeButton title="E.S.基礎トレーナー" href={esTrainerHref} />
+              <ModeButton
+                title="面接基礎トレーナー"
+                href={interviewPodHref}
+              />
+              <ModeButton
+                title="E.S.基礎トレーナー"
+                href={esTrainerHref}
+              />
             </section>
 
             <div className="footer">
               このアプリは、進路を考えるためのものです。<br />
-              医療施設を含め、企業も視野に幅広く業界を理解し、考え方を獲得するための教材です。
-              <br />
-              <span style={{ opacity: 0.9 }}>（Cookie最大60日）。</span>
+              医療施設を含め、企業も視野に幅広く業界を理解し、
+              考え方を獲得するための教材です。<br />
+              <span style={{ opacity: 0.9 }}>
+                （Cookie最大60日）。
+              </span>
             </div>
-
-            {/* --- ここから追加：最終終了 + 管理者コメント（UIは下に足すだけ） --- */}
-            <div style={{ marginTop: 12 }}>
-              {/* 最終終了後の案内（bye=1 のときだけ） */}
-              {bye && (
-                <div className="glass glassStrong" style={{ marginBottom: 12 }}>
-                  <div
-                    style={{
-                      fontWeight: 800,
-                      fontSize: 14,
-                      marginBottom: 8,
-                    }}
-                  >
-                    ご利用ありがとうございました
-                  </div>
-                  <div style={{ fontSize: 12, lineHeight: 1.7, opacity: 0.92 }}>
-                    この画面のまま、ブラウザ（タブ）を閉じて終了してください。
-                    <br />
-                    ※端末内のCookie（最大60日）でアクセス状態を保持します
-                  </div>
-                </div>
-              )}
-
-              {/* 最終終了ボタン：同ページに ?bye=1 を付けて案内を出す */}
-              <a
-                className="bigBtn glassStrong"
-                href="/?bye=1"
-                style={{
-                  // 既存ボタンと同レイアウトを使いつつ“補助導線”に見せる微調整
-                  opacity: 0.92,
-                }}
-              >
-                <span className="bigBtnText">本日の学習を終える</span>
-              </a>
-
-              {/* 管理者コメント枠：ENVがあるときだけ表示 */}
-              {adminComment.trim().length > 0 && (
-                <div
-                  className="glass glassStrong"
-                  style={{ marginTop: 12, paddingTop: 12, paddingBottom: 12 }}
-                >
-                  <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.9 }}>
-                    管理者からのお知らせ
-                  </div>
-                  <div style={{ marginTop: 8, fontSize: 12, lineHeight: 1.7 }}>
-                    {renderMultilineText(adminComment)}
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* --- ここまで追加 --- */}
           </>
         )}
       </main>
