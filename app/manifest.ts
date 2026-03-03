@@ -1,4 +1,3 @@
-// kc-lp/app/manifest.ts
 import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
@@ -13,8 +12,6 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
       { src: "/icon-512.png", sizes: "512x512", type: "image/png" },
-      // iOS向けに maskable を入れたい場合は別途用意（任意）
-      // { src: "/icon-512-maskable.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
   };
 }
