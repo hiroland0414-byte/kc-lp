@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 function ModeButton(props: { title: string; href: string }) {
   return (
-    <a className="bigBtn glassStrong bigBtnWhite" href={props.href}>
+    <a className="bigBtn glassStrong" href={props.href}>
       <span className="bigBtnText">{props.title}</span>
     </a>
   );
@@ -56,6 +56,21 @@ function withKch(baseUrl: string, secret: string, appId: string) {
   }
 }
 
+function renderMultilineText(text: string) {
+  // ENVの改行を <br/> に変換して表示
+  const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
+  return (
+    <>
+      {lines.map((line, i) => (
+        <span key={i}>
+          {line}
+          {i < lines.length - 1 ? <br /> : null}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export default async function Page({
   searchParams,
 }: {
@@ -63,6 +78,9 @@ export default async function Page({
 }) {
   const sp = (await searchParams) ?? {};
   const gate = sp["gate"] ? true : false;
+
+  // 「最終終了」押下後の案内表示（Serverで確実に制御）
+  const bye = sp["bye"] ? true : false;
 
   const authed = await isAuthed();
 
@@ -82,15 +100,12 @@ export default async function Page({
     ? withKch(esTrainerUrl, hubSecret, "es-trainer")
     : esTrainerUrl;
 
-  // ★管理者コメント（ここを編集すれば即反映）
-  const ADMIN_LINES = [
-    "管理者コメント１作成中",
-    "管理者コメント2作成中",
-    "管理者コメント3作成中",
-  ];
-
-  // ★アンケートURL（必要ならここに貼る）
-  const SURVEY_URL = ""; // 例: "https://forms.gle/xxxxx"
+  // 管理者コメント（未設定なら枠ごと出さない）
+  // どちらか好きな名前でENVに入れられるよう、2候補対応
+  const adminComment =
+    process.env.NEXT_PUBLIC_ADMIN_COMMENT ??
+    process.env.LP_ADMIN_COMMENT ??
+    "";
 
   return (
     <div
@@ -151,7 +166,11 @@ export default async function Page({
                   style={{ flex: 3 }}
                 />
 
-                <button className="primaryBtn" type="submit" style={{ flex: 1.5 }}>
+                <button
+                  className="primaryBtn"
+                  type="submit"
+                  style={{ flex: 1.5 }}
+                >
                   入　力
                 </button>
               </form>
@@ -180,51 +199,59 @@ export default async function Page({
               <span style={{ opacity: 0.9 }}>（Cookie最大60日）。</span>
             </div>
 
-            {/* ★下部：管理者コメント＋アンケート */}
-            <div
-              className="glass"
-              style={{
-                marginTop: 14,
-                background: "rgba(255, 245, 160, 0.75)", // 薄い黄色
-                border: "1px solid rgba(255,255,255,0.6)",
-                color: "#0b3aa6", // 青
-                padding: 14,
-                borderRadius: 18,
-                lineHeight: 1.7,
-                fontWeight: 800,
-                textAlign: "center",
-              }}
-            >
-              {ADMIN_LINES.map((t, i) => (
-                <div key={i}>{t}</div>
-              ))}
-
-              {SURVEY_URL ? (
-                <div style={{ marginTop: 10, fontWeight: 900 }}>
-                  <a
-                    href={SURVEY_URL}
+            {/* --- ここから追加：最終終了 + 管理者コメント（UIは下に足すだけ） --- */}
+            <div style={{ marginTop: 12 }}>
+              {/* 最終終了後の案内（bye=1 のときだけ） */}
+              {bye && (
+                <div className="glass glassStrong" style={{ marginBottom: 12 }}>
+                  <div
                     style={{
-                      color: "#0b3aa6",
-                      textDecoration: "underline",
-                      wordBreak: "break-all",
+                      fontWeight: 800,
+                      fontSize: 14,
+                      marginBottom: 8,
                     }}
                   >
-                    {SURVEY_URL}
-                  </a>
+                    ご利用ありがとうございました
+                  </div>
+                  <div style={{ fontSize: 12, lineHeight: 1.7, opacity: 0.92 }}>
+                    この画面のまま、ブラウザ（タブ）を閉じて終了してください。
+                    <br />
+                    ※端末内のCookie（最大60日）でアクセス状態を保持します
+                  </div>
                 </div>
-              ) : null}
+              )}
+
+              {/* 最終終了ボタン：同ページに ?bye=1 を付けて案内を出す */}
+              <a
+                className="bigBtn glassStrong"
+                href="/?bye=1"
+                style={{
+                  // 既存ボタンと同レイアウトを使いつつ“補助導線”に見せる微調整
+                  opacity: 0.92,
+                }}
+              >
+                <span className="bigBtnText">本日の学習を終える</span>
+              </a>
+
+              {/* 管理者コメント枠：ENVがあるときだけ表示 */}
+              {adminComment.trim().length > 0 && (
+                <div
+                  className="glass glassStrong"
+                  style={{ marginTop: 12, paddingTop: 12, paddingBottom: 12 }}
+                >
+                  <div style={{ fontSize: 12, fontWeight: 800, opacity: 0.9 }}>
+                    管理者からのお知らせ
+                  </div>
+                  <div style={{ marginTop: 8, fontSize: 12, lineHeight: 1.7 }}>
+                    {renderMultilineText(adminComment)}
+                  </div>
+                </div>
+              )}
             </div>
+            {/* --- ここまで追加 --- */}
           </>
         )}
       </main>
-
-      {/* ★追加CSS：ボタン白化（既存UIを崩さず上書き） */}
-      <style>{`
-        .bigBtnWhite{
-          background: rgba(255,255,255,0.82) !important;
-          border: 1px solid rgba(255,255,255,0.75) !important;
-        }
-      `}</style>
     </div>
   );
 }
