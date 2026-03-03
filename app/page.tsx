@@ -190,6 +190,7 @@ export default async function Page({
                 color: "#0b3aa6", // 青
                 padding: 14,
                 borderRadius: 18,
+                fontSize: 12, 
                 lineHeight: 1.7,
                 fontWeight: 800,
                 textAlign: "center",
