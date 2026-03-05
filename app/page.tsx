@@ -119,7 +119,7 @@ export default async function Page({
 
         {/* タイトル */}
         <div className="titleWrap">
-          <h1 className="h1">就活支援基礎トレーナー</h1>
+          <h1 className="h1">Job Readiness Trainer</h1>
           <div className="sub">比較ではなく、視点を切り替えて深く考える</div>
         </div>
 
