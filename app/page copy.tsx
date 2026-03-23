@@ -133,7 +133,7 @@ export default async function Page({
     ? withKch(esTrainerUrl, hubSecret, "es-trainer")
     : esTrainerUrl;
 
-  const futureTrainerHref = "http://localhost:3001";
+  const futureTrainerHref = futureTrainerUrl;
   const essayTrainerHref = essayTrainerUrl;
 
   const ADMIN_LINES = [
