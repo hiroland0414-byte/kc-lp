@@ -32,14 +32,15 @@ function ModeButton(props: {
           {props.title}
         </span>
 
-        {/* 説明（明るい黄色） */}
+        {/* 説明（明るい黄色＋青影） */}
         {props.sub && (
           <span
             style={{
               fontSize: 12,
-              color: "#FFD84D", // ★ 明るい黄色
+              color: "#FFD84D",
               fontWeight: 700,
               whiteSpace: "nowrap",
+              textShadow: "0 1px 2px rgba(11,58,166,0.8)", // ★ 青影
             }}
           >
             {props.sub}
@@ -236,10 +237,10 @@ export default async function Page({
 
       {/* ===== 微調整CSS ===== */}
       <style>{`
-        .bigBtn {
-          padding: 10px 0 !important;
-          border-radius: 16px !important;
-        }
+       .bigBtn {
+  padding: 12px 0 !important;  /* ← 10 → 12 にUP（約20%） */
+  border-radius: 16px !important;
+}
 
         .section {
           gap: 10px !important;
