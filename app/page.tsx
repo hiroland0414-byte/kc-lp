@@ -18,7 +18,7 @@ function ModeButton(props: {
           display: "flex",
           justifyContent: "center",
           alignItems: "baseline",
-          gap: "0.5em", // ★ 1文字分の余白
+          gap: "0.5em",
         }}
       >
         {/* タイトル */}
@@ -32,12 +32,12 @@ function ModeButton(props: {
           {props.title}
         </span>
 
-        {/* 説明 */}
+        {/* 説明（明るい黄色） */}
         {props.sub && (
           <span
             style={{
               fontSize: 12,
-              color: "#d4a800", // ★ 濃い黄色
+              color: "#FFD84D", // ★ 明るい黄色
               fontWeight: 700,
               whiteSpace: "nowrap",
             }}
