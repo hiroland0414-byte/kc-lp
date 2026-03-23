@@ -21,10 +21,10 @@ function ModeButton(props: {
           gap: "0.5em",
         }}
       >
-        {/* タイトル */}
+        {/* タイトル（+10%） */}
         <span
           style={{
-            fontSize: 17,
+            fontSize: 19, // ★ 17 → 19
             fontWeight: 800,
             color: "#0b3aa6",
           }}
@@ -32,15 +32,15 @@ function ModeButton(props: {
           {props.title}
         </span>
 
-        {/* 説明（明るい黄色＋青影） */}
+        {/* 説明（白＋少し影） */}
         {props.sub && (
           <span
             style={{
-              fontSize: 12,
-              color: "#FFD84D",
+              fontSize: 13, // ★ 12 → 13
+              color: "rgba(255,255,255,0.95)", // ★ 濃い白
               fontWeight: 700,
               whiteSpace: "nowrap",
-              textShadow: "0 1px 2px rgba(11,58,166,0.8)", // ★ 青影
+              textShadow: "0 1px 2px rgba(11,58,166,0.6)", // ★ 影で視認性確保
             }}
           >
             {props.sub}
@@ -237,8 +237,8 @@ export default async function Page({
 
       {/* ===== 微調整CSS ===== */}
       <style>{`
-       .bigBtn {
-  padding: 12px 0 !important;  /* ← 10 → 12 にUP（約20%） */
+.bigBtn {
+  padding: 14px 0 !important;  /* 12 → 14 */
   border-radius: 16px !important;
 }
 
