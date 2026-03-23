@@ -5,38 +5,10 @@ import { lpLogin } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-// ===== ボタン（改良版）=====
-function ModeButton(props: {
-  title: string;
-  href: string;
-  sub?: string;
-}) {
+function ModeButton(props: { title: string; href: string }) {
   return (
     <a className="bigBtn glassStrong bigBtnWhite" href={props.href}>
-      <div
-        style={{
-          fontSize: 17,
-          fontWeight: 800,
-          color: "#0b3aa6",
-          lineHeight: 1.3,
-        }}
-      >
-        {props.title}
-      </div>
-
-      {props.sub && (
-        <div
-          style={{
-            fontSize: 11,
-            marginTop: 2,
-            opacity: 0.75,
-            color: "#0b3aa6",
-            lineHeight: 1.4,
-          }}
-        >
-          {props.sub}
-        </div>
-      )}
+      <span className="bigBtnText">{props.title}</span>
     </a>
   );
 }
@@ -99,8 +71,6 @@ export default async function Page({
 
   const interviewPodUrl = process.env.NEXT_PUBLIC_INTERVIEW_POD_URL ?? "#";
   const esTrainerUrl = process.env.NEXT_PUBLIC_ES_TRAINER_URL ?? "#";
-  const futureTrainerUrl = process.env.NEXT_PUBLIC_FUTURE_TRAINER_URL ?? "#";
-  const essayTrainerUrl = process.env.NEXT_PUBLIC_ESSAY_TRAINER_URL ?? "#";
 
   const hubSecret = process.env.HUB_LINK_SECRET ?? "";
 
@@ -112,14 +82,15 @@ export default async function Page({
     ? withKch(esTrainerUrl, hubSecret, "es-trainer")
     : esTrainerUrl;
 
-  const futureTrainerHref = futureTrainerUrl;
-  const essayTrainerHref = essayTrainerUrl;
-
+  // ★管理者コメント（ここを編集すれば即反映）
   const ADMIN_LINES = [
     "現在β版での運用を開始しています。",
     "ぜひともご使用経験を下記アンケートにご記入頂けると助かります。",
     "https://forms.gle/Ad4gDxW5Mh7cawby7",
   ];
+
+  // ★アンケートURL（必要ならここに貼る）
+  const SURVEY_URL = ""; // 例: "https://forms.gle/xxxxx"
 
   return (
     <div
@@ -138,6 +109,8 @@ export default async function Page({
             alt="K-career"
             style={{
               width: "100%",
+              height: "auto",
+              display: "block",
               borderRadius: 18,
               boxShadow: "0 10px 30px rgba(2,6,23,0.18)",
             }}
@@ -150,96 +123,107 @@ export default async function Page({
           <div className="sub">比較ではなく、視点を切り替えて深く考える</div>
         </div>
 
+        {/* 未認証 */}
         {!authed && (
           <section className="section">
             <div className="glass glassStrong">
               <div className="accessTitle">アクセス</div>
 
-              <form action={lpLogin} style={{ marginTop: 10, display: "flex", gap: 10 }}>
-                <input className="input" name="password" placeholder="パスワード" />
-                <button className="primaryBtn" type="submit">
-                  入力
+              <div className="subDark">
+                配布されたパスワードを入力してください（60日保持）。
+              </div>
+
+              <form
+                action={lpLogin}
+                style={{
+                  marginTop: 12,
+                  display: "flex",
+                  gap: 12,
+                  alignItems: "center",
+                }}
+              >
+                <input
+                  className="input"
+                  name="password"
+                  inputMode="text"
+                  placeholder="英数字パスワード"
+                  autoComplete="one-time-code"
+                  style={{ flex: 3 }}
+                />
+
+                <button className="primaryBtn" type="submit" style={{ flex: 1.5 }}>
+                  入　力
                 </button>
               </form>
 
-              {gate && <div className="err">パスワードが違います</div>}
+              {gate && (
+                <div className="err">
+                  パスワードが違います。もう一度入力してください。
+                </div>
+              )}
             </div>
           </section>
         )}
 
+        {/* 認証済み */}
         {authed && (
           <>
-            {/* ===== ボタン ===== */}
-            <section className="section" style={{ gap: 10 }}>
-              <ModeButton
-                title="未来トレーナー"
-                href={futureTrainerHref}
-                sub="まずは自分の考えを整理"
-              />
-
-              <ModeButton
-                title="E.S.基礎トレーナー"
-                href={esTrainerHref}
-                sub="考えを言葉にする"
-              />
-
-              <ModeButton
-                title="小論文トレーナー"
-                href={essayTrainerHref}
-                sub="深く伝える力を鍛える"
-              />
-
-              <ModeButton
-                title="面接基礎トレーナー"
-                href={interviewPodHref}
-                sub="実践で伝える"
-              />
+            <section className="section">
+              <ModeButton title="面接基礎トレーナー" href={interviewPodHref} />
+              <ModeButton title="E.S.基礎トレーナー" href={esTrainerHref} />
             </section>
 
-            {/* 説明 */}
             <div className="footer">
               このアプリは、進路を考えるためのものです。<br />
               医療施設を含め、企業も視野に幅広く業界を理解し、考え方を獲得するための教材です。
+              <br />
+              <span style={{ opacity: 0.9 }}>（Cookie最大60日）。</span>
             </div>
 
-            {/* 管理者コメント */}
+            {/* ★下部：管理者コメント＋アンケート */}
             <div
               className="glass"
               style={{
-                marginTop: 10,
-                background: "rgba(255, 245, 160, 0.75)",
-                color: "#0b3aa6",
-                padding: 10,
+                marginTop: 14,
+                background: "rgba(255, 245, 160, 0.75)", // 薄い黄色
+                border: "1px solid rgba(255,255,255,0.6)",
+                color: "#0b3aa6", // 青
+                padding: 14,
                 borderRadius: 18,
-                fontSize: 12,
-                textAlign: "center",
-                lineHeight: 1.5,
+                fontSize: 12, 
+                lineHeight: 1.7,
                 fontWeight: 800,
+                textAlign: "center",
               }}
             >
               {ADMIN_LINES.map((t, i) => (
                 <div key={i}>{t}</div>
               ))}
+
+              {SURVEY_URL ? (
+                <div style={{ marginTop: 10, fontWeight: 900 }}>
+                  <a
+                    href={SURVEY_URL}
+                    style={{
+                      color: "#0b3aa6",
+                      textDecoration: "underline",
+                      wordBreak: "break-all",
+                    }}
+                  >
+                    {SURVEY_URL}
+                  </a>
+                </div>
+              ) : null}
             </div>
           </>
         )}
       </main>
 
-      {/* ===== 微調整CSS ===== */}
+      {/* ★追加CSS：ボタン白化（既存UIを崩さず上書き） */}
       <style>{`
-        .bigBtn {
-          padding: 10px 0 !important;
-          border-radius: 16px !important;
-        }
-
-        .section {
-          gap: 10px !important;
-        }
-
-        .footer {
-          font-size: 12px !important;
-          line-height: 1.5 !important;
-          margin-top: 10px;
+        .bigBtnWhite{
+          background: rgba(255,255,255,0.82) !important;
+          border: 1px solid rgba(255,255,255,0.75) !important;
         }
       `}</style>
     </div>
