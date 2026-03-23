@@ -10,9 +10,21 @@ function ModeButton(props: {
   title: string;
   href: string;
   sub?: string;
+  variant?: "default" | "future";
 }) {
+  const isFuture = props.variant === "future";
+
   return (
-    <a className="bigBtn glassStrong bigBtnWhite" href={props.href}>
+    <a
+      className="bigBtn glassStrong"
+      href={props.href}
+      style={{
+        background: isFuture
+          ? "rgba(255, 228, 230, 0.85)" // ★ パステル赤
+          : "rgba(255,255,255,0.82)",
+        border: "1px solid rgba(255,255,255,0.75)",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -21,10 +33,10 @@ function ModeButton(props: {
           gap: "0.5em",
         }}
       >
-        {/* タイトル（+10%） */}
+        {/* タイトル */}
         <span
           style={{
-            fontSize: 19, // ★ 17 → 19
+            fontSize: 19,
             fontWeight: 800,
             color: "#0b3aa6",
           }}
@@ -32,15 +44,14 @@ function ModeButton(props: {
           {props.title}
         </span>
 
-        {/* 説明（白＋少し影） */}
+        {/* 説明 */}
         {props.sub && (
           <span
             style={{
-              fontSize: 13, // ★ 12 → 13
-              color: "rgba(255,255,255,0.95)", // ★ 濃い白
+              fontSize: 13,
+              color: "rgba(255,255,255,0.95)",
               fontWeight: 700,
-              whiteSpace: "nowrap",
-              textShadow: "0 1px 2px rgba(11,58,166,0.6)", // ★ 影で視認性確保
+              textShadow: "0 1px 2px rgba(11,58,166,0.6)",
             }}
           >
             {props.sub}
@@ -185,6 +196,7 @@ export default async function Page({
                 title="未来トレーナー"
                 href={futureTrainerHref}
                 sub="まずは自分の考えを整理"
+                variant="future" // ★これ追加//
               />
 
               <ModeButton
