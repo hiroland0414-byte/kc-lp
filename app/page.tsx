@@ -15,28 +15,37 @@ function ModeButton(props: {
     <a className="bigBtn glassStrong bigBtnWhite" href={props.href}>
       <div
         style={{
-          fontSize: 17,
-          fontWeight: 800,
-          color: "#0b3aa6",
-          lineHeight: 1.3,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "baseline",
+          gap: "0.5em", // ★ 1文字分の余白
         }}
       >
-        {props.title}
-      </div>
-
-      {props.sub && (
-        <div
+        {/* タイトル */}
+        <span
           style={{
-            fontSize: 11,
-            marginTop: 2,
-            opacity: 0.75,
+            fontSize: 17,
+            fontWeight: 800,
             color: "#0b3aa6",
-            lineHeight: 1.4,
           }}
         >
-          {props.sub}
-        </div>
-      )}
+          {props.title}
+        </span>
+
+        {/* 説明 */}
+        {props.sub && (
+          <span
+            style={{
+              fontSize: 12,
+              color: "#d4a800", // ★ 濃い黄色
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {props.sub}
+          </span>
+        )}
+      </div>
     </a>
   );
 }
@@ -199,7 +208,7 @@ export default async function Page({
             {/* 説明 */}
             <div className="footer">
               このアプリは、進路を考えるためのものです。<br />
-              医療施設を含め、企業も視野に幅広く業界を理解し、考え方を獲得するための教材です。テスト
+              医療施設を含め、企業も視野に幅広く業界を理解し、考え方を獲得するための教材です。
             </div>
 
             {/* 管理者コメント */}
