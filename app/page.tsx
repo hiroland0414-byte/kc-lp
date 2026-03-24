@@ -117,8 +117,8 @@ export default async function Page({
   const esTrainerUrl = process.env.NEXT_PUBLIC_ES_TRAINER_URL ?? "#";
 
   // ★ここ修正済み（重要）
-  const futureTrainerUrl =
-    "https://future-trainer-6bobiqj0k-hiroshi-koyamas-projects.vercel.app";
+const futureTrainerUrl =
+  "https://future-trainer.vercel.app";
 
   const essayTrainerUrl = process.env.NEXT_PUBLIC_ESSAY_TRAINER_URL ?? "#";
 
