@@ -1,3 +1,5 @@
+"use client";
+
 import crypto from "crypto";
 import { cookies } from "next/headers";
 import { verifyCookie } from "@/lib/auth";
@@ -5,7 +7,7 @@ import { lpLogin } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-// ===== ボタン（改良版）=====
+// ===== ボタン =====
 function ModeButton(props: {
   title: string;
   href: string;
@@ -20,7 +22,7 @@ function ModeButton(props: {
       href={props.href}
       style={{
         background: isFuture
-          ? "rgba(255, 228, 230, 0.85)" // ★ パステル赤
+          ? "rgba(255, 228, 230, 0.85)" // 未来だけ赤系
           : "rgba(255,255,255,0.82)",
         border: "1px solid rgba(255,255,255,0.75)",
       }}
@@ -33,36 +35,34 @@ function ModeButton(props: {
           gap: "0.5em",
         }}
       >
-        {/* タイトル */}
         <span
           style={{
-            fontSize: 19,
-            fontWeight: 800,
+            fontSize: 20,
+            fontWeight: 900,
             color: "#0b3aa6",
           }}
         >
           {props.title}
         </span>
 
-        {/* 説明 */}
-{props.sub && (
-  <span
-    style={{
-      fontSize: 13,
-      color: "#d9480f", // 朱色
-      fontWeight: 700,
-      whiteSpace: "nowrap",
-      textShadow: "0 1px 2px rgba(255,255,255,0.6)",
-    }}
-  >
-    {props.sub}
-  </span>
-)}
+        {props.sub && (
+          <span
+            style={{
+              fontSize: 14,
+              color: "#d9480f",
+              fontWeight: 700,
+              textShadow: "0 1px 2px rgba(255,255,255,0.6)",
+            }}
+          >
+            {props.sub}
+          </span>
+        )}
       </div>
     </a>
   );
 }
 
+// ===== 認証 =====
 async function isAuthed(): Promise<boolean> {
   const secret = process.env.LP_AUTH_SECRET ?? "";
   if (!secret) return false;
@@ -75,24 +75,19 @@ async function isAuthed(): Promise<boolean> {
   return v.ok;
 }
 
+// ===== kch署名 =====
 function b64url(input: Buffer | string) {
   const buf = Buffer.isBuffer(input) ? input : Buffer.from(input);
-  return buf
-    .toString("base64")
-    .replaceAll("+", "-")
-    .replaceAll("/", "_")
-    .replaceAll("=", "");
+  return buf.toString("base64").replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
 }
 
 function signKch(secret: string, appId: string) {
   const now = Math.floor(Date.now() / 1000);
-  const ttlSeconds = 60 * 5;
-  const payload = { appId, iat: now, exp: now + ttlSeconds };
+  const payload = { appId, iat: now, exp: now + 300 };
   const payloadB64 = b64url(JSON.stringify(payload));
   const data = `v1.${payloadB64}`;
   const sig = crypto.createHmac("sha256", secret).update(data).digest();
-  const sigB64 = b64url(sig);
-  return `${data}.${sigB64}`;
+  return `${data}.${b64url(sig)}`;
 }
 
 function withKch(baseUrl: string, secret: string, appId: string) {
@@ -121,7 +116,11 @@ export default async function Page({
 
   const interviewPodUrl = process.env.NEXT_PUBLIC_INTERVIEW_POD_URL ?? "#";
   const esTrainerUrl = process.env.NEXT_PUBLIC_ES_TRAINER_URL ?? "#";
-  const futureTrainerUrl = process.env.NEXT_PUBLIC_FUTURE_TRAINER_URL ?? "#";
+
+  // ★ここ修正済み（重要）
+  const futureTrainerUrl =
+    "https://future-trainer-6bobiqj0k-hiroshi-koyamas-projects.vercel.app";
+
   const essayTrainerUrl = process.env.NEXT_PUBLIC_ESSAY_TRAINER_URL ?? "#";
 
   const hubSecret = process.env.HUB_LINK_SECRET ?? "";
@@ -134,7 +133,7 @@ export default async function Page({
     ? withKch(esTrainerUrl, hubSecret, "es-trainer")
     : esTrainerUrl;
 
-  const futureTrainerHref = "https://future-trainer.vercel.app";
+  const futureTrainerHref = futureTrainerUrl;
   const essayTrainerHref = essayTrainerUrl;
 
   const ADMIN_LINES = [
@@ -145,26 +144,23 @@ export default async function Page({
 
   return (
     <div
-      className="bg"
       style={{
         backgroundImage: `url(${bgUrl})`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        minHeight: "100vh",
       }}
     >
       <main className="shell">
         {/* ロゴ */}
-        <div style={{ marginTop: 6 }}>
-          <img
-            src={logoUrl}
-            alt="K-career"
-            style={{
-              width: "100%",
-              borderRadius: 18,
-              boxShadow: "0 10px 30px rgba(2,6,23,0.18)",
-            }}
-          />
-        </div>
+        <img
+          src={logoUrl}
+          alt="K-career"
+          style={{
+            width: "100%",
+            borderRadius: 18,
+            boxShadow: "0 10px 30px rgba(2,6,23,0.18)",
+          }}
+        />
 
         {/* タイトル */}
         <div className="titleWrap">
@@ -172,32 +168,30 @@ export default async function Page({
           <div className="sub">比較ではなく、視点を切り替えて深く考える</div>
         </div>
 
+        {/* 未認証 */}
         {!authed && (
           <section className="section">
             <div className="glass glassStrong">
-              <div className="accessTitle">アクセス</div>
-
-              <form action={lpLogin} style={{ marginTop: 10, display: "flex", gap: 10 }}>
+              <form action={lpLogin} style={{ display: "flex", gap: 10 }}>
                 <input className="input" name="password" placeholder="パスワード" />
                 <button className="primaryBtn" type="submit">
                   入力
                 </button>
               </form>
-
               {gate && <div className="err">パスワードが違います</div>}
             </div>
           </section>
         )}
 
+        {/* 認証済み */}
         {authed && (
           <>
-            {/* ===== ボタン ===== */}
             <section className="section" style={{ gap: 10 }}>
               <ModeButton
                 title="未来トレーナー"
                 href={futureTrainerHref}
                 sub="まずは自分の考えを整理"
-                variant="future" // ★これ追加//
+                variant="future"
               />
 
               <ModeButton
@@ -219,25 +213,19 @@ export default async function Page({
               />
             </section>
 
-            {/* 説明 */}
             <div className="footer">
-              このアプリは、進路を考えるためのものです。<br />
-              医療施設を含め、企業も視野に幅広く業界を理解し、考え方を獲得するための教材です。
+              このアプリは進路を考えるための教材です。
             </div>
 
-            {/* 管理者コメント */}
             <div
-              className="glass"
               style={{
                 marginTop: 10,
                 background: "rgba(255, 245, 160, 0.75)",
-                color: "#0b3aa6",
                 padding: 10,
                 borderRadius: 18,
-                fontSize: 12,
                 textAlign: "center",
-                lineHeight: 1.5,
                 fontWeight: 800,
+                color: "#0b3aa6",
               }}
             >
               {ADMIN_LINES.map((t, i) => (
@@ -247,24 +235,6 @@ export default async function Page({
           </>
         )}
       </main>
-
-      {/* ===== 微調整CSS ===== */}
-      <style>{`
-.bigBtn {
-  padding: 14px 0 !important;  /* 12 → 14 */
-  border-radius: 16px !important;
-}
-
-        .section {
-          gap: 10px !important;
-        }
-
-        .footer {
-          font-size: 12px !important;
-          line-height: 1.5 !important;
-          margin-top: 10px;
-        }
-      `}</style>
     </div>
   );
 }
