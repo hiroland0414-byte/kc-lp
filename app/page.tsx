@@ -45,18 +45,19 @@ function ModeButton(props: {
         </span>
 
         {/* 説明 */}
-        {props.sub && (
-          <span
-            style={{
-              fontSize: 13,
-              color: "rgba(255,255,255,0.95)",
-              fontWeight: 700,
-              textShadow: "0 1px 2px rgba(11,58,166,0.6)",
-            }}
-          >
-            {props.sub}
-          </span>
-        )}
+{props.sub && (
+  <span
+    style={{
+      fontSize: 13,
+      color: "#d9480f", // 朱色
+      fontWeight: 700,
+      whiteSpace: "nowrap",
+      textShadow: "0 1px 2px rgba(255,255,255,0.6)",
+    }}
+  >
+    {props.sub}
+  </span>
+)}
       </div>
     </a>
   );
@@ -133,7 +134,7 @@ export default async function Page({
     ? withKch(esTrainerUrl, hubSecret, "es-trainer")
     : esTrainerUrl;
 
-  const futureTrainerHref = "http://localhost:3001";
+  const futureTrainerHref = "https://future-trainer.vercel.app";
   const essayTrainerHref = essayTrainerUrl;
 
   const ADMIN_LINES = [
