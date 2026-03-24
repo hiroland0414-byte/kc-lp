@@ -1,4 +1,3 @@
-"use client";
 
 import crypto from "crypto";
 import { cookies } from "next/headers";
