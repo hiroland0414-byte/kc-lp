@@ -198,13 +198,13 @@ const futureTrainerUrl =
                 sub="考えを言葉にする"
               />
 
-false && (
-  <ModeButton
-    title="小論文トレーナー"
-    href={essayTrainerHref}
-    sub="深く伝える力を鍛える"
-  />
-)
+{/*
+<ModeButton
+  title="小論文トレーナー"
+  href={essayTrainerHref}
+  sub="深く伝える力を鍛える"
+/>
+*/}
 
               <ModeButton
                 title="面接基礎トレーナー"
