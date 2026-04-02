@@ -119,7 +119,6 @@ export default async function Page({
   // ★ここ修正済み（重要）
 const futureTrainerUrl =
   "https://future-trainer.vercel.app";
-
   const essayTrainerUrl = process.env.NEXT_PUBLIC_ESSAY_TRAINER_URL ?? "#";
 
   const hubSecret = process.env.HUB_LINK_SECRET ?? "";
@@ -199,11 +198,13 @@ const futureTrainerUrl =
                 sub="考えを言葉にする"
               />
 
-              <ModeButton
-                title="小論文トレーナー"
-                href={essayTrainerHref}
-                sub="深く伝える力を鍛える"
-              />
+false && (
+  <ModeButton
+    title="小論文トレーナー"
+    href={essayTrainerHref}
+    sub="深く伝える力を鍛える"
+  />
+)
 
               <ModeButton
                 title="面接基礎トレーナー"
