@@ -213,7 +213,7 @@ const futureTrainerUrl =
               />
             </section>
 
-            <div className="footer text-base">
+            <div className="footer">
               このアプリは進路を考えるための教材です。
             </div>
 
