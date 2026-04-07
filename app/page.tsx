@@ -135,8 +135,8 @@ const futureTrainerUrl =
   const essayTrainerHref = essayTrainerUrl;
 
   const ADMIN_LINES = [
-    "現在β版での運用を開始しています。",
-    "ぜひともご使用経験を下記アンケートにご記入頂けると助かります。",
+    "運用開始しました。",
+    "改善に向けて、ご使用経験を下記アンケートにご記入ください。",
     "https://forms.gle/Ad4gDxW5Mh7cawby7",
   ];
 
