@@ -136,7 +136,7 @@ const futureTrainerUrl =
 
   const ADMIN_LINES = [
     "運用開始しました。",
-    "改善に向けて、ご使用経験を下記アンケートにご記入ください。",
+    "改善に向けて 下記アンケートにご記入ください。",
     "https://forms.gle/Ad4gDxW5Mh7cawby7",
   ];
 
