@@ -136,7 +136,7 @@ const futureTrainerUrl =
 
   const ADMIN_LINES = [
     "運用開始しました。",
-    "改善に向けて 下記アンケートにご記入ください。",
+    "下記アンケートにご協力ください。",
     "https://forms.gle/Ad4gDxW5Mh7cawby7",
   ];
 
@@ -191,13 +191,13 @@ const futureTrainerUrl =
                 sub="まずは自分の考えを整理"
                 variant="future"
               />
-
+{/*
               <ModeButton
                 title="E.S.基礎トレーナー"
                 href={esTrainerHref}
                 sub="考えを言葉にする"
               />
-
+ */}             
 {/*
 <ModeButton
   title="小論文トレーナー"
@@ -209,7 +209,7 @@ const futureTrainerUrl =
               <ModeButton
                 title="面接基礎トレーナー"
                 href={interviewPodHref}
-                sub="実践で伝える"
+                sub="言語/非言語で伝える"
               />
             </section>
 
