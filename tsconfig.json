@@ -23,6 +23,10 @@
     },
     "incremental": true,
     "esModuleInterop": true,
+
+    // 👇 ★これを追加
+    "ignoreDeprecations": "6.0",
+
     "plugins": [
       {
         "name": "next"
