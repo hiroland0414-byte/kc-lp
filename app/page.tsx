@@ -207,7 +207,7 @@ const futureTrainerUrl =
 */}
 
               <ModeButton
-                title="面接基礎トレーナー"
+                title="実践トレーナー"
                 href={interviewPodHref}
                 sub="言語/非言語で伝える"
               />
